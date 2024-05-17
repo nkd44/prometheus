@@ -135,7 +135,64 @@ Reload the Prometheus config:
                                                  $ sudo systemctl restart Prometheus
 
 
-----------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Installing Grafana and Building dashboard
+
+4.1 Login to the machine that we will use for monitoring by Prometheus
+
+ 1- Install some required packages:
+
+                                                               $ sudo apt-get update
+                                           $ sudo apt-get install -y apt-transport-https software-properties-common wget
+					   
+2- Add the GPG key for the Grafana OSS repository, then add the repository:
+
+                                                 $ wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+						 
+                                                        $ sudo apt-get install ca-certificates
+							
+                                              $ sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+					      
+3- Install the Grafana package:
+                                                       
+							  $ sudo apt-get update
+
+
+                                                      $ sudo apt-get install grafana=9.2.3
+4- Enable and start the grafana-server service:
+                                                      $ sudo systemctl enable grafana-server
+
+
+                                                         $ sudo systemctl start grafana-server
+
+5- Make sure the service is in the Active (running) state:
+
+                                                        $ sudo systemctl status grafana-server
+
+6- You can also verify that Grafana is working by accessing it in a web browser at:
+
+                                                       http://<Grafana_Server_Public IP>:3000
+
+7- Log in to Grafana with the username admin and password admin
+
+       1- Reset the password when prompted.
+       
+       2- Click Add data source.
+       
+       3- Select Prometheus.
+                                        For the URL, enter http://<Prometheus server Private IP>:9090.
+
+       4- Click Save & Test. You should see a banner that says Data source is working.
+       
+       5- Test your setup by running a query to get some Prometheus data. Click the Explore icon on the left.
+       
+       6- In the PromQL Query input, enter a simple query, such as up.
+       
+       7- Execute the query. You should see some data appear.
+       
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # # Authentication (self-signed Certificate) between prometheus Server and target.
  
@@ -182,5 +239,10 @@ Reload the Prometheus config:
                                               $ sudo systemctl restart node_exporter
 
 Now we have successfully created set-up for Authentication/Encryptio in Prometheus
+
+
+
+
+
 
 
